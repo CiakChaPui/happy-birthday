@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. Typewriter Effect ---
-    const textToType = "Halo sayang,\naku ada hadiah spesial buat kamu.";
+    // Make text sleek and elegant. Focus on subtle delay and feel.
+    const textToType = "Halo sayang,\nMau buka hadiah dari aku gak?";
     const typingEl = document.getElementById('typing-text');
-    const btnOpen = document.getElementById('btn-open');
+    const actionBtns = document.getElementById('action-buttons');
+    const cuteGif = document.getElementById('cute-gif');
     let charIndex = 0;
     
     function typeWriter() {
@@ -16,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
             charIndex++;
             setTimeout(typeWriter, Math.random() * 50 + 60);
         } else {
-            btnOpen.style.display = 'inline-block';
+            // Show modern glass button after typing finishes
+            cuteGif.style.display = 'block';
+            actionBtns.style.display = 'flex';
         }
     }
 
