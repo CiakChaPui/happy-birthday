@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@1,500&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@1,500&display=swap');
 
 :root {
   --font-main: 'Plus Jakarta Sans', sans-serif;
@@ -281,7 +281,7 @@ section.active {
   100% { background-color: #FFDAB9; }
 }
 
-/* Balloon border PNG — fixed bottom, animates top on step 4 */
+/* Balloon border PNG â€” fixed bottom, animates top on step 4 */
 .ref-balloon-border {
   position: fixed;
   width: 100%;
@@ -291,7 +291,7 @@ section.active {
   pointer-events: none;
 }
 
-/* 8 PNG Balloons — fixed, bounce around */
+/* 8 PNG Balloons â€” fixed, bounce around */
 .ref-balloon {
   position: fixed;
   bottom: -200px;
@@ -343,7 +343,9 @@ section.active {
   display: none;
 }
 .ref-container.visible {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Bulb row */
@@ -370,7 +372,7 @@ section.active {
   background-image: url('/bulb.png');
 }
 
-/* Bulb glow (step 1) — one-shot 5s animation */
+/* Bulb glow (step 1) â€” one-shot 5s animation */
 .ref-bulb.bulb-glow-yellow { background-image: url('/bulb_yellow.png'); animation: bulb_glow_yellow linear 5s; }
 .ref-bulb.bulb-glow-red    { background-image: url('/bulb_red.png');    animation: bulb_glow_red linear 5s; }
 .ref-bulb.bulb-glow-blue   { background-image: url('/bulb_blue.png');   animation: bulb_glow_blue linear 5s; }
@@ -385,7 +387,7 @@ section.active {
 @keyframes bulb_glow_pink   { 0% { background-image: url('/bulb.png'); opacity: 0; } 50% { opacity: 1; } 100% { background-image: url('/bulb_pink.png'); opacity: 1; } }
 @keyframes bulb_glow_orange { 0% { background-image: url('/bulb.png'); opacity: 0; } 50% { opacity: 1; } 100% { background-image: url('/bulb_orange.png'); opacity: 1; } }
 
-/* Bulb blink (step 2+) — infinite blinking */
+/* Bulb blink (step 2+) â€” infinite blinking */
 .ref-bulb.bulb-glow-yellow-after { background-image: url('/bulb_yellow.png'); animation: bulb_blink_yellow linear 1s infinite; }
 .ref-bulb.bulb-glow-red-after    { background-image: url('/bulb_red.png');    animation: bulb_blink_red linear 1.2s infinite; }
 .ref-bulb.bulb-glow-blue-after   { background-image: url('/bulb_blue.png');   animation: bulb_blink_blue linear 1.4s infinite; }
@@ -423,10 +425,12 @@ section.active {
 
 /* Cake area */
 .ref-cake-cover {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  min-height: 320px;
+  align-items: center;
+  min-height: clamp(220px, 48vw, 360px);
+  width: 100%;
 }
 
 /* CSS Cake (from cake.less, @D = 300px) */
@@ -561,14 +565,21 @@ section.active {
   background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .ref-cake { width: 200px; height: 200px; }
-  .ref-cake::after { width: 200px; }
-  .ref-cobertura { width: 110px; margin-left: -55px; }
-  .ref-bizcocho { width: 100px; margin-left: -50px; height: 66px; }
-  .ref-balloon { width: 70px; height: 128px; background-size: 70px 128px; }
-  .ref-balloon h2 { font-size: 36px; }
+/* === Responsive: Fluid cake section scaling === */
+.ref-cake             { width: clamp(160px,45vw,300px); height: clamp(160px,45vw,300px); }
+.ref-cake::after      { width: clamp(160px,45vw,300px); }
+.ref-cobertura        { width: clamp(88px,25vw,166px); margin-left: clamp(-44px,-12.5vw,-83px); height: clamp(20px,5.5vw,37px); }
+.ref-bizcocho         { width: clamp(80px,22vw,150px); margin-left: clamp(-40px,-11vw,-75px); height: clamp(53px,15vw,100px); }
+.ref-velas            { width: clamp(10px,2.5vw,15px); height: clamp(33px,8vw,50px); margin-left: clamp(-5px,-1.25vw,-7.5px); }
+.ref-bulb             { width: clamp(28px,6vw,50px); height: clamp(28px,6vw,50px); background-size: clamp(28px,6vw,50px) clamp(28px,6vw,50px); }
+.ref-bulb-holder      { width: clamp(32px,7vw,60px); height: clamp(36px,8vw,70px); }
+.ref-balloon          { width: clamp(50px,9vw,100px); height: clamp(91px,16vw,183px); background-size: 100% 100%; }
+.ref-banner-row img   { max-width: min(90%,500px); height: auto; }
+.ref-control-panel .modern-btn { max-width: calc(100vw - 40px); font-size: clamp(0.85rem,3.5vw,1.1rem); }
+
+@media (max-width: 480px) {
+  .ref-cake-cover { min-height: 180px; }
+  .ref-message p  { font-size: 0.95rem; }
 }
 
 /* 8 individual balloon fly-up animations */
@@ -580,3 +591,76 @@ section.active {
 @keyframes balloonFly5 { 0% { bottom: -200px; opacity: 0.6; } 100% { bottom: 110vh; opacity: 0; } }
 @keyframes balloonFly6 { 0% { bottom: -200px; opacity: 0.6; } 100% { bottom: 110vh; opacity: 0; } }
 @keyframes balloonFly7 { 0% { bottom: -200px; opacity: 0.6; } 100% { bottom: 110vh; opacity: 0; } }
+
+/* Converge overlay - shows LAURA JULIANT as floating 2-row balloon grid */
+.ref-converge-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 3vw, 20px);
+  z-index: 100;
+  padding: 0 12px 60px 12px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.ref-converge-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(4px, 1.8vw, 10px);
+  width: 100%;
+  max-width: min(95vw, 560px);
+}
+
+.ref-converge-balloon {
+  width: clamp(40px, 11vw, 72px);
+  height: clamp(73px, 20vw, 132px);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 1;
+  min-width: 0;
+  animation: balloonFloat 3s ease-in-out infinite alternate;
+}
+
+/* Staggered float delays so each balloon bobs at a different phase */
+.ref-converge-row:first-child .ref-converge-balloon:nth-child(1) { animation-delay: 0s; }
+.ref-converge-row:first-child .ref-converge-balloon:nth-child(2) { animation-delay: 0.3s; }
+.ref-converge-row:first-child .ref-converge-balloon:nth-child(3) { animation-delay: 0.6s; }
+.ref-converge-row:first-child .ref-converge-balloon:nth-child(4) { animation-delay: 0.9s; }
+.ref-converge-row:first-child .ref-converge-balloon:nth-child(5) { animation-delay: 1.2s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(1) { animation-delay: 0.15s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(2) { animation-delay: 0.45s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(3) { animation-delay: 0.75s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(4) { animation-delay: 1.05s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(5) { animation-delay: 1.35s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(6) { animation-delay: 1.65s; }
+.ref-converge-row:last-child  .ref-converge-balloon:nth-child(7) { animation-delay: 1.95s; }
+
+@keyframes balloonFloat {
+  0%   { transform: translateY(0px) rotate(-2deg); }
+  50%  { transform: translateY(-14px) rotate(1deg); }
+  100% { transform: translateY(-6px) rotate(-1deg); }
+}
+
+.ref-converge-balloon span {
+  font-family: 'Signika', 'Outfit', sans-serif;
+  font-size: clamp(1rem, 3.5vw, 2.2rem);
+  font-weight: 900;
+  text-shadow: 2px 2px 6px rgba(255,255,255,0.9), 0 0 10px rgba(0,0,0,0.2);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+
+
+
+
