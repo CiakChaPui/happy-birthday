@@ -40,8 +40,28 @@ export default function CakeSection({ isActive }) {
     <section id="section3" className={isActive ? 'active' : ''}>
         <h1 className={`greeting-text ${showGreeting ? 'show' : ''}`} id="greeting">Happy Birthday Sayang! 🎂</h1>
         
-        <div className="cake-container">
-            <div className="cake" title="Klik kue / Lilin untuk meniup!" onClick={handleBlow}>
+        <div className="cake-container" style={{ position: 'relative' }}>
+            
+            {isBlown && (
+                <div className="tiktok-flower show" style={{ position: 'absolute', bottom: '80px', zIndex: 0 }}>
+                  <div className="f-stem"></div>
+                  <div className="f-leaf f-leaf-left"></div>
+                  <div className="f-leaf f-leaf-right"></div>
+                  <div className="f-head">
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-petal"></div>
+                    <div className="f-core"></div>
+                  </div>
+                </div>
+            )}
+
+            <div className="cake" title="Klik kue / Lilin untuk meniup!" onClick={handleBlow} style={{ zIndex: 10 }}>
                 <div className="plate"></div>
                 <div className="layer layer-bottom"></div>
                 <div className="layer layer-middle"></div>

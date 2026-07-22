@@ -165,6 +165,7 @@ section.active {
 .book-wrapper { perspective: 1600px; width: 320px; height: 450px; margin-bottom: 2rem; display: flex; justify-content: center; z-index: 10; }
 .book { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1); box-shadow: 0 20px 40px rgba(0,0,0,0.2); border-radius: 4px; transform: translateX(0) scale(1); }
 .book.is-open { transform: translateX(50%) scale(1); }
+.book.is-closed-back { transform: translateX(100%) scale(1); }
 .book-page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform-origin: left center; transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); transform-style: preserve-3d; }
 .book-page.flipped { transform: rotateY(-180deg); }
 
@@ -254,4 +255,100 @@ section.active {
   .scrap-title { font-size: 1.3rem; }
   .cute-gif { width: 150px; height: 150px; margin-bottom: 15px; }
   .modern-btn { padding: 10px 24px; font-size: 0.95rem; }
+}
+
+/* --- Tiktok Blooming Flower --- */
+.tiktok-flower {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 250px;
+  width: 200px;
+  opacity: 0;
+}
+.tiktok-flower.show {
+  animation: fadeInFlower 0.5s ease forwards;
+}
+
+@keyframes fadeInFlower { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+.f-stem {
+  width: 6px;
+  background: linear-gradient(to top, #166534, #22c55e);
+  border-radius: 4px;
+  transform-origin: bottom center;
+  animation: growStem 1.5s ease-in-out forwards;
+}
+.f-leaf {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(45deg, #166534, #22c55e);
+  border-radius: 50% 0 50% 50%;
+  transform: scale(0);
+}
+.f-leaf-left {
+  bottom: 80px;
+  left: 60px;
+  transform-origin: bottom right;
+  animation: popLeafLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
+}
+.f-leaf-right {
+  bottom: 130px;
+  right: 60px;
+  border-radius: 0 50% 50% 50%;
+  transform-origin: bottom left;
+  animation: popLeafRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+}
+
+.f-head {
+  position: absolute;
+  bottom: 230px;
+  width: 0;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.f-petal {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: radial-gradient(circle at bottom right, #f43f5e, #fb7185);
+  border-radius: 50% 50% 0 50%;
+  transform-origin: bottom right;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);
+}
+.f-petal:nth-child(1) { animation: bloomPetal 1.2s ease-out 1.5s forwards; --r: 0deg; --x: -32.5px; --y: -32.5px; background: #e11d48; }
+.f-petal:nth-child(2) { animation: bloomPetal 1.2s ease-out 1.6s forwards; --r: 45deg; --x: -32.5px; --y: -32.5px; background: #f43f5e; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.f-petal:nth-child(3) { animation: bloomPetal 1.2s ease-out 1.7s forwards; --r: 90deg; --x: -32.5px; --y: -32.5px; background: #fb7185; }
+.f-petal:nth-child(4) { animation: bloomPetal 1.2s ease-out 1.8s forwards; --r: 135deg; --x: -32.5px; --y: -32.5px; background: #f43f5e; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.f-petal:nth-child(5) { animation: bloomPetal 1.2s ease-out 1.9s forwards; --r: 180deg; --x: -32.5px; --y: -32.5px; background: #e11d48; }
+.f-petal:nth-child(6) { animation: bloomPetal 1.2s ease-out 2.0s forwards; --r: 225deg; --x: -32.5px; --y: -32.5px; background: #f43f5e; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.f-petal:nth-child(7) { animation: bloomPetal 1.2s ease-out 2.1s forwards; --r: 270deg; --x: -32.5px; --y: -32.5px; background: #fb7185; }
+.f-petal:nth-child(8) { animation: bloomPetal 1.2s ease-out 2.2s forwards; --r: 315deg; --x: -32.5px; --y: -32.5px; background: #f43f5e; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+
+.f-core {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: radial-gradient(circle, #fde047 30%, #eab308 100%);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: popCore 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2.5s forwards;
+  z-index: 20;
+  box-shadow: inset 0 0 10px rgba(161, 98, 7, 0.5);
+}
+
+@keyframes growStem { 0% { height: 0; } 100% { height: 230px; } }
+@keyframes popLeafLeft { 0% { transform: scale(0) rotate(20deg); } 100% { transform: scale(1) rotate(-15deg); } }
+@keyframes popLeafRight { 0% { transform: scale(0) rotate(-20deg); } 100% { transform: scale(1) rotate(15deg); } }
+@keyframes bloomPetal {
+  0% { transform: scale(0) rotate(var(--r)); opacity: 0; }
+  100% { transform: scale(1) rotate(var(--r)) translate(var(--x), var(--y)); opacity: 0.95; }
+}
+@keyframes popCore {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
 }

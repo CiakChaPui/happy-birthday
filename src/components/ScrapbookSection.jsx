@@ -26,7 +26,7 @@ export default function ScrapbookSection({ isActive, onNext }) {
        <div className="vintage-decor decor-bottom-right">🌻</div>
 
        <div className="book-wrapper">
-         <div className={`book ${currentPage > 0 ? 'is-open' : ''}`}>
+         <div className={`book ${currentPage > 0 && currentPage < totalPages ? 'is-open' : ''} ${currentPage === totalPages ? 'is-closed-back' : ''}`}>
            
            {/* Page 1 (Cover) */}
            <div className={`book-page ${currentPage > 0 ? 'flipped' : ''}`} style={{ zIndex: currentPage > 0 ? 1 : 3 }}>
@@ -99,8 +99,12 @@ export default function ScrapbookSection({ isActive, onNext }) {
                       </div>
                   </div>
               </div>
-              <div className="page-face back cover-face">
-                  {/* Blank back cover */}
+              <div className="page-face back cover-face" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '0 30px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-accent)', color: '#ffdcb5', fontSize: '1.5rem', textAlign: 'center', marginBottom: '15px', fontStyle: 'italic' }}>Tumbuh Bersama</h3>
+                  <p style={{ fontFamily: 'var(--font-display)', color: '#f1e9d2', textAlign: 'center', fontSize: '0.95rem', lineHeight: '1.5', opacity: 0.9 }}>
+                    "Mari terus belajar dan saling memahami sebagai pasangan. Beriringan langkah untuk saling membaikkan, agar kita bisa terus bersama menjadi versi terbaik dari diri kita."
+                  </p>
+                  <div className="flower-sticker" style={{ position: 'relative', marginTop: '25px', fontSize: '2rem' }}>🤍</div>
               </div>
            </div>
 

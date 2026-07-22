@@ -35,12 +35,16 @@ export default function IntroSection({ isActive, onNext }) {
       btn.style.position = 'fixed';
       btn.style.zIndex = '999';
     }
-    const btnRect = btn.getBoundingClientRect();
-    const maxX = window.innerWidth - btnRect.width - 20;
-    const maxY = window.innerHeight - btnRect.height - 20;
+    const btnW = btn.offsetWidth || 100;
+    const btnH = btn.offsetHeight || 50;
+    const safePadding = 50;
     
-    const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-    const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+    // Gunakan documentElement agar lebih akurat di mobile browser dibanding window.innerHeight
+    const maxX = document.documentElement.clientWidth - btnW - safePadding;
+    const maxY = document.documentElement.clientHeight - btnH - safePadding;
+    
+    const randomX = Math.max(safePadding, Math.floor(Math.random() * maxX));
+    const randomY = Math.max(safePadding, Math.floor(Math.random() * maxY));
     
     btn.style.left = randomX + 'px';
     btn.style.top = randomY + 'px';
@@ -78,6 +82,7 @@ export default function IntroSection({ isActive, onNext }) {
             className="modern-btn btn-no" 
             onMouseOver={moveNoButton} 
             onTouchStart={(e) => { e.preventDefault(); moveNoButton(e); }}
+            onClick={moveNoButton}
          >
             Gak 😜
          </button>
