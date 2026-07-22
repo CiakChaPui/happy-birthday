@@ -54,7 +54,7 @@ export default function ScrapbookSection({ isActive, onNext }) {
                   <div className="page-content spread-left">
                       <div className="washi-tape" style={{ top: '-10px', left: '40%' }}></div>
                       <div className="scrap-note">
-                          <p>Selamat Ulang Tahun, Sayangku. Semoga aku berhasil jadi orang pertama yang ucapin itu, yang terpenting aku masih nemuin ulang tahun kali ini sama kamu.</p>
+                          <p>Selamat Ulang Tahun, Cuyung ku. Semoga aku berhasil jadi orang pertama yang ucapin itu, yang terpenting aku masih nemuin ulang tahun kali ini sama kamu.</p>
                       </div>
                   </div>
               </div>
@@ -95,7 +95,7 @@ export default function ScrapbookSection({ isActive, onNext }) {
                           <div className="caption-hand">Special Memories</div>
                       </div>
                       <div className="scrap-note" style={{ bottom: '10px', width: '90%', fontSize: '0.9rem' }}>
-                          <p>Maaf buat perilaku yang nyakitin kamu.. I'm so lucky have you. Jangan bosen sama aku, aku udah cukup berantakan apalagi kalo ga sama kamu.<br/><br/>I love you sayang..</p>
+                          <p>Maaf buat perilaku yang nyakitin kamu.. I'm so lucky have you. Jangan bosen sama aku, aku udah cukup berantakan apalagi kalo ga sama kamu.<br/><br/>I love you cuyung...</p>
                       </div>
                   </div>
               </div>
