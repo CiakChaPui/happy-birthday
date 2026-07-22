@@ -11,7 +11,7 @@ export default function IntroSection({ isActive, onNext }) {
     setText('');
     setShowActions(false);
     
-    const textToType = "Halo sayang,\nMau buka hadiah dari aku gak?";
+    const textToType = "C uyung...,\nMau buka hadiah dari aku gak?";
     let charIndex = 0;
     
     const typeWriter = () => {
@@ -52,8 +52,13 @@ export default function IntroSection({ isActive, onNext }) {
        <img 
           src="https://media.tenor.com/ef30M1n103AAAAAi/tkthao219-bubududu.gif" 
           alt="Cute bear" 
-          className="cute-gif" 
-          style={{ display: showActions ? 'block' : 'none' }} 
+          className="cute-gif"
+          style={{ 
+            opacity: showActions ? 1 : 0, 
+            transform: showActions ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 0.8s ease', 
+            pointerEvents: 'none' 
+          }} 
        />
        
        <div className="glowing-text">
@@ -62,7 +67,12 @@ export default function IntroSection({ isActive, onNext }) {
          ))}
        </div>
        
-       <div className="action-buttons" style={{ display: showActions ? 'flex' : 'none' }}>
+       <div className="action-buttons" style={{ 
+            opacity: showActions ? 1 : 0, 
+            transform: showActions ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 0.8s ease',
+            pointerEvents: showActions ? 'auto' : 'none' 
+       }}>
          <button className="modern-btn btn-yes" onClick={onNext}>Mau! 🥰</button>
          <button 
             className="modern-btn btn-no" 

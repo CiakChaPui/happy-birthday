@@ -65,7 +65,7 @@ export default function CakeSection({ isActive }) {
             )}
             
             <a 
-              href="https://api.whatsapp.com/send?phone=6281234567890&text=Halo%20sayang!%20Makasih%20ya%20kejutan%20ulang%20tahunnya,%20aku%20suka%20banget!%20%E2%9D%A4%EF%B8%8F" 
+              href="https://api.whatsapp.com/send?phone=6282281923174&text=Halo%20sayang!%20Makasih%20ya%20kejutan%20ulang%20tahunnya,%20aku%20suka%20banget!%20%E2%9D%A4%EF%B8%8F" 
               target="_blank" 
               rel="noreferrer"
               className={`btn-wa ${showGreeting ? 'show' : ''}`} 

@@ -26,20 +26,26 @@ export default function ScrapbookSection({ isActive, onNext }) {
        <div className="vintage-decor decor-bottom-right">🌻</div>
 
        <div className="book-wrapper">
-         <div className="book" style={{ transform: currentPage === 0 ? 'translateX(0)' : 'translateX(50%)' }}>
+         <div className={`book ${currentPage > 0 ? 'is-open' : ''}`}>
            
            {/* Page 1 (Cover) */}
            <div className={`book-page ${currentPage > 0 ? 'flipped' : ''}`} style={{ zIndex: currentPage > 0 ? 1 : 3 }}>
               <div className="page-face front cover-face">
                   <div className="cover-content">
                       <div className="polaroid-mini" style={{ top: '10%', left: '10%', transform: 'rotate(-5deg)' }}>
-                          <div className="polaroid-mini-img"></div>
+                          <div className="polaroid-mini-img" style={{ position: 'relative' }}>
+                              <img src="/images/1.jpg" alt="" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.target.style.display='none'} />
+                          </div>
                       </div>
                       <div className="polaroid-mini" style={{ top: '40%', right: '10%', transform: 'rotate(8deg)' }}>
-                          <div className="polaroid-mini-img"></div>
+                          <div className="polaroid-mini-img" style={{ position: 'relative' }}>
+                              <img src="/images/2.jpg" alt="" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.target.style.display='none'} />
+                          </div>
                       </div>
                       <div className="polaroid-mini" style={{ bottom: '15%', left: '15%', transform: 'rotate(-2deg)' }}>
-                          <div className="polaroid-mini-img"></div>
+                          <div className="polaroid-mini-img" style={{ position: 'relative' }}>
+                              <img src="/images/3.jpg" alt="" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.target.style.display='none'} />
+                          </div>
                       </div>
                       <h2 className="cover-title"><span>HAPPY</span><br/>Special Day</h2>
                   </div>
@@ -59,8 +65,9 @@ export default function ScrapbookSection({ isActive, onNext }) {
               <div className="page-face front">
                   <div className="page-content spread-right">
                       <div className="polaroid-vintage">
-                          <div className="polaroid-vintage-img">
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3" /></svg>
+                          <div className="polaroid-vintage-img" style={{ position: 'relative' }}>
+                              <img src="/images/4.jpg" alt="Memory" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', zIndex: 2 }} onError={(e) => e.target.style.display = 'none'} />
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ zIndex: 1, position: 'relative' }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3" /></svg>
                           </div>
                       </div>
                       <div className="flower-sticker" style={{ bottom: '20%', right: '-10px' }}>🌼</div>
@@ -82,7 +89,9 @@ export default function ScrapbookSection({ isActive, onNext }) {
               <div className="page-face front">
                   <div className="page-content spread-right torn-bg">
                       <div className="polaroid-vintage" style={{ top: '10%', right: '10%', width: '80%', transform: 'rotate(3deg)' }}>
-                          <div className="polaroid-vintage-img" style={{ aspectRatio: '16/9', background:'#57534e' }}></div>
+                          <div className="polaroid-vintage-img" style={{ aspectRatio: '16/9', background:'#57534e', position: 'relative' }}>
+                              <img src="/images/5.jpg" alt="Memory" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.target.style.display = 'none'} />
+                          </div>
                           <div className="caption-hand">Special Memories</div>
                       </div>
                       <div className="scrap-note" style={{ bottom: '10px', width: '90%', fontSize: '0.9rem' }}>
