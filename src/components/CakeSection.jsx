@@ -1,102 +1,358 @@
-import { useState } from 'react';
-import confetti from 'canvas-confetti';
+import { useState, useEffect, useRef } from 'react';
+
+// Message loop texts from reference site
+const messages = [
+  "Today is...",
+  "as beautiful as any other day",
+  "but you realize",
+  "another year has gone",
+  "in the blink of an eye",
+  "however",
+  "Do you know..?",
+  "today is just as special",
+  "so special to you",
+  "that's why",
+  "Let's make it...",
+  "the best celebration ever",
+  "and let me share...",
+  "a piece of happiness to you",
+  "I made all this...",
+  "as a birthday present to you",
+  "thanks for being there",
+  "thanks for the memories we've made",
+  "thanks for everything",
+  "I wish you all the best",
+  "May your life be at ease",
+  "May all your wishes come true",
+  "Remember",
+  "your ambitions",
+  "you live as a free bird...",
+  "flying in the blue sky",
+  "Now things are different...",
+  "real story of your life",
+  "is just about to begin",
+  "indeed..",
+  "this life is not as easy as we thought",
+  "but...",
+  "don't worry",
+  "don't be afraid",
+  "because...",
+  "you are not alone in this world",
+  "because...",
+  "this year will be better",
+  "and I hope",
+  "you'll find...",
+  "happiness along the way",
+  "keep your spirits up",
+  "enjoy every single moment...",
+  "that you will experience today",
+  "fill it with your most beautiful smile",
+  "and make it the best memory..",
+  "lastly...",
+  "I'd like to wish you one more time",
+  "a very happy birthday",
+];
+
+// Balloon letters: LAURA JULIANT (12 letters)
+const balloonLetters = ['L','A','U','R','A','J','U','L','I','A','N','T'];
+const balloonColors = ['#F2B300','#0719D4','#D14D39','#8FAD00','#8377E4','#99C96A','#20CFB4','#F2B300','#F2B300','#0719D4','#D14D39','#8FAD00'];
 
 export default function CakeSection({ isActive }) {
-  const [isBlown, setIsBlown] = useState(false);
-  const [showGreeting, setShowGreeting] = useState(false);
+  const [step, setStep] = useState(0);
+  const [balloonBorderTop, setBalloonBorderTop] = useState('100%');
+  const [balloonsFlying, setBalloonsFlying] = useState(false);
+  const [balloonsConverge, setBalloonsConverge] = useState(false);
+  const [cakeVisible, setCakeVisible] = useState(false);
+  const [flameVisible, setFlameVisible] = useState(false);
+  const [msgVisible, setMsgVisible] = useState(false);
+  const [msgIndex, setMsgIndex] = useState(0);
+  const [msgFade, setMsgFade] = useState(true); // true = fade-in
+  const [cakeFadeOut, setCakeFadeOut] = useState(false);
+  const [showLetters, setShowLetters] = useState(false);
+  const audioRef = useRef(null);
+  const msgTimerRef = useRef(null);
 
-  const handleBlow = () => {
-    if (isBlown) return;
-    setIsBlown(true);
+  // Reset state when section becomes active
+  useEffect(() => {
+    if (!isActive) return;
+    setStep(0);
+    setBalloonBorderTop('100%');
+    setBalloonsFlying(false);
+    setBalloonsConverge(false);
+    setCakeVisible(false);
+    setFlameVisible(false);
+    setMsgVisible(false);
+    setMsgIndex(0);
+    setMsgFade(true);
+    setCakeFadeOut(false);
+    setShowLetters(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [isActive]);
 
-    const duration = 3.5 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+  // Message loop logic (step 8)
+  useEffect(() => {
+    if (step !== 8) return;
 
-    const randomInRange = (min, max) => Math.random() * (max - min) + min;
+    let i = 0;
+    setMsgIndex(0);
+    setMsgFade(true);
 
-    const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now();
-        if (timeLeft <= 0) {
-            return clearInterval(interval);
+    function cycle() {
+      // Fade out current
+      setMsgFade(false);
+      msgTimerRef.current = setTimeout(() => {
+        i++;
+        if (i >= messages.length) {
+          // End: show cake again
+          setCakeFadeOut(false);
+          setMsgVisible(false);
+          return;
         }
-        const particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { 
-            particleCount,
-            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-        }));
-        confetti(Object.assign({}, defaults, { 
-            particleCount,
-            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-        }));
-    }, 250);
+        setMsgIndex(i);
+        setMsgFade(true);
+        msgTimerRef.current = setTimeout(cycle, 2800);
+      }, 800);
+    }
 
-    setTimeout(() => {
-        setShowGreeting(true);
-    }, 400);
+    msgTimerRef.current = setTimeout(cycle, 2800);
+
+    return () => clearTimeout(msgTimerRef.current);
+  }, [step]);
+
+  const handleNext = () => setStep(prev => prev + 1);
+
+  // Step 1: Turn on lights
+  const handleTurnOn = () => {
+    setStep(1);
   };
 
-  return (
-    <section id="section3" className={isActive ? 'active' : ''}>
-        <h1 className={`greeting-text ${showGreeting ? 'show' : ''}`} id="greeting">Happy Birthday Sayang! 🎂</h1>
-        
-        <div className="cake-container" style={{ position: 'relative' }}>
-            
-            {isBlown && (
-                <div className="tiktok-flower show" style={{ position: 'absolute', bottom: '80px', zIndex: 0 }}>
-                  <div className="f-stem"></div>
-                  <div className="f-leaf f-leaf-left"></div>
-                  <div className="f-leaf f-leaf-right"></div>
-                  <div className="f-head">
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-petal"></div>
-                    <div className="f-core"></div>
-                  </div>
-                </div>
-            )}
+  // Step 2: Play music, bulbs start blinking
+  const handlePlay = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {});
+    }
+    setStep(2);
+  };
 
-            <div className="cake" title="Klik kue / Lilin untuk meniup!" onClick={handleBlow} style={{ zIndex: 10 }}>
-                <div className="plate"></div>
-                <div className="layer layer-bottom"></div>
-                <div className="layer layer-middle"></div>
-                <div className="layer layer-top">
-                    <div className="icing"></div>
-                    <div className="drip" style={{ left: '10%', height: '35px' }}></div>
-                    <div className="drip" style={{ left: '30%', height: '50px' }}></div>
-                    <div className="drip" style={{ left: '50%', height: '40px' }}></div>
-                    <div className="drip" style={{ left: '70%', height: '55px' }}></div>
-                    <div className="drip" style={{ left: '85%', height: '30px' }}></div>
-                </div>
-                <div className="candle">
-                    <div className={`flame ${isBlown ? 'off' : ''}`} id="flame"></div>
-                </div>
-            </div>
-            
-            {!isBlown && (
-              <button className="modern-btn" id="btn-blow" style={{ background: 'rgba(244,63,94,0.15)', borderColor: 'rgba(244,63,94,0.4)' }} onClick={handleBlow}>
-                  Tiup Lilin 🌬️
-              </button>
-            )}
-            
-            <a 
-              href="https://api.whatsapp.com/send?phone=6282281923174&text=Halo%20sayang!%20Makasih%20ya%20kejutan%20ulang%20tahunnya,%20aku%20suka%20banget!%20%E2%9D%A4%EF%B8%8F" 
-              target="_blank" 
-              rel="noreferrer"
-              className={`btn-wa ${showGreeting ? 'show' : ''}`} 
-              id="btn-wa"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.898-4.45 9.899-9.898 0-2.64-1.026-5.119-2.894-6.985-1.87-1.866-4.35-2.893-6.993-2.893-5.451 0-9.901 4.451-9.9 9.897 0 2.02.484 3.864 1.488 5.44l-1.127 4.116 4.135-1.269zm8.567-5.753c-.354-.177-2.096-1.036-2.42-1.155-.323-.118-.559-.177-.794.177-.235.353-.912 1.154-1.117 1.391-.206.235-.412.264-.764.088-.354-.177-1.492-.55-2.844-1.758-1.053-.941-1.764-2.103-1.97-2.455-.205-.353-.022-.544.155-.72.161-.16.354-.412.531-.617.177-.206.235-.353.354-.588.118-.235.059-.441-.029-.617-.089-.176-.795-1.916-1.09-2.624-.286-.689-.577-.596-.794-.606-.205-.011-.441-.011-.676-.011-.235 0-.618.088-.942.441-.323.353-1.235 1.206-1.235 2.943s1.265 3.413 1.441 3.649c.176.235 2.489 3.882 6.079 5.385 1.258.528 2.239.843 3.003 1.079 1.261.389 2.411.334 3.327.202 1.033-.149 3.178-1.302 3.619-2.56.441-1.258.441-2.336.31-2.56-.134-.234-.499-.373-.854-.559z"/>
-                </svg>
-                Kirim Pesan Sayang
-            </a>
+  // Step 3: Banner drops
+  const handleBannar = () => {
+    setStep(3);
+  };
+
+  // Step 4: Balloons fly + border animates up
+  const handleBalloons = () => {
+    setBalloonsFlying(true);
+    setBalloonBorderTop('-500px');
+    setTimeout(() => setStep(4), 1000);
+  };
+
+  // Step 5: Cake fades in
+  const handleCakeFadein = () => {
+    setCakeVisible(true);
+    setStep(5);
+  };
+
+  // Step 6: Light candle (flames appear)
+  const handleLightCandle = () => {
+    setFlameVisible(true);
+    setStep(6);
+  };
+
+  // Step 7: Wish message – balloons converge showing letters
+  const handleWishMessage = () => {
+    setBalloonsConverge(true);
+    setTimeout(() => setShowLetters(true), 1000);
+    setTimeout(() => setStep(7), 500);
+  };
+
+  // Step 8: Story → close the cake container, show message loop
+  const handleStory = () => {
+    setCakeFadeOut(true);
+    setStep(8);
+    setTimeout(() => {
+      setMsgVisible(true);
+    }, 600);
+  };
+
+  if (!isActive) return null;
+
+  return (
+    <section id="section3" className={`ref-cake-section ${isActive ? 'active' : ''}`}>
+      {/* Audio */}
+      <audio ref={audioRef} className="hbd-song" loop src="/hbd.mp3" />
+
+      {/* Dark overlay that fades out on step 1 */}
+      <div
+        className="ref-dark-overlay"
+        style={{ opacity: step >= 1 ? 0 : 1 }}
+      />
+
+      {/* Peach animated background */}
+      <div
+        className={`ref-peach-bg ${step >= 1 ? 'peach' : ''} ${step >= 2 ? 'peach-alive' : ''}`}
+      />
+
+      {/* Balloon Border (fixed bottom → animates off top on step 4) */}
+      <img
+        src="/Balloon-Border.png"
+        className="ref-balloon-border"
+        style={{ top: balloonBorderTop }}
+        alt=""
+      />
+
+      {/* 12 PNG Balloons - fixed position, fly up on step 4 */}
+      {!balloonsConverge && [0,1,2,3,4,5,6,7,8,9,10,11].map(i => {
+        // Spread 12 balloons across viewport width
+        const leftPct = 2 + i * 8;
+        const balloonStyle = {
+          backgroundImage: `url('/b${(i % 8) + 1}.png')`,
+          left: `${leftPct}%`,
+          bottom: '-200px',
+        };
+        if (balloonsFlying) {
+          Object.assign(balloonStyle, {
+            animation: `balloonFly${i % 8} 8s ease-in forwards`,
+          });
+        }
+        return (
+          <div
+            key={i}
+            className={`ref-balloon ${balloonsFlying ? (i % 2 === 0 ? 'rotate-one' : 'rotate-two') : ''}`}
+            style={balloonStyle}
+            id={`balloon-${i}`}
+          />
+        );
+      })}
+
+      {/* Converge overlay: show name as 2-row balloon grid */}
+      {balloonsConverge && (
+        <div className="ref-converge-overlay">
+          <div className="ref-converge-row">
+            {['L','A','U','R','A'].map((letter, i) => (
+              <div key={i} className="ref-converge-balloon" style={{ backgroundImage: `url('/b${(i % 8) + 1}.png')` }}>
+                <span style={{ color: balloonColors[i] }}>{letter}</span>
+              </div>
+            ))}
+          </div>
+          <div className="ref-converge-row">
+            {['J','U','L','I','A','N','T'].map((letter, i) => (
+              <div key={i} className="ref-converge-balloon" style={{ backgroundImage: `url('/b${(i + 5) % 8 + 1}.png')` }}>
+                <span style={{ color: balloonColors[(i + 5) % 12] }}>{letter}</span>
+              </div>
+            ))}
+          </div>
         </div>
+      )}
+
+      {/* Main container */}
+      <div className="ref-container visible">
+
+        {/* Bulbs row */}
+        <div className="ref-bulb-row">
+          {['yellow','red','blue','green','pink','orange'].map((color, i) => (
+            <div className="ref-bulb-holder" key={i}>
+              <div
+                className={`ref-bulb ${step >= 1 ? `bulb-glow-${color}` : ''} ${step >= 2 ? `bulb-glow-${color}-after` : ''}`}
+                id={`bulb_${color}`}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Banner row */}
+        <div className="ref-banner-row">
+          <img
+            src="/banner.png"
+            className={`ref-bannar ${step >= 3 ? 'bannar-come' : ''}`}
+            alt="Happy Birthday Banner"
+          />
+        </div>
+
+        {/* Cake area */}
+        <div
+          className="ref-cake-cover"
+          style={{
+            opacity: cakeFadeOut ? 0 : cakeVisible ? 1 : 0,
+            transition: 'opacity 0.8s ease',
+            pointerEvents: cakeVisible && !cakeFadeOut ? 'auto' : 'none',
+          }}
+        >
+          <div className="ref-cake">
+            <div className="ref-velas">
+              {[1,2,3,4,5].map(n => (
+                <div
+                  key={n}
+                  className="ref-fuego"
+                  style={{ display: flameVisible ? 'block' : 'none' }}
+                />
+              ))}
+            </div>
+            <div className="ref-cobertura" />
+            <div className="ref-bizcocho" />
+          </div>
+        </div>
+
+        {/* Message (scrolling story) */}
+        {msgVisible && (
+          <div className="ref-message">
+            <p
+              style={{
+                opacity: msgFade ? 1 : 0,
+                transition: 'opacity 0.8s ease',
+              }}
+            >
+              {messages[msgIndex]}
+            </p>
+          </div>
+        )}
+
+        {/* Button panel */}
+        <div className="ref-control-panel">
+          {step === 0 && (
+            <button className="modern-btn" id="turn_on" onClick={handleTurnOn}>
+              Turn On Lights
+            </button>
+          )}
+          {step === 1 && (
+            <button className="modern-btn" id="play" onClick={handlePlay}>
+              Play Music
+            </button>
+          )}
+          {step === 2 && (
+            <button className="modern-btn" id="bannar_coming" onClick={handleBannar}>
+              Let's Decorate
+            </button>
+          )}
+          {step === 3 && (
+            <button className="modern-btn" id="balloons_flying" onClick={handleBalloons}>
+              Fly With Balloons
+            </button>
+          )}
+          {step === 4 && (
+            <button className="modern-btn" id="cake_fadein" onClick={handleCakeFadein}>
+              Most Delicious Cake Ever
+            </button>
+          )}
+          {step === 5 && (
+            <button className="modern-btn" id="light_candle" onClick={handleLightCandle}>
+              Light Candle
+            </button>
+          )}
+          {step === 6 && (
+            <button className="modern-btn" id="wish_message" onClick={handleWishMessage}>
+              Happy Birthday
+            </button>
+          )}
+          {step === 7 && (
+            <button className="modern-btn" id="story" onClick={handleStory}>
+              A Message For You
+            </button>
+          )}
+        </div>
+      </div>
     </section>
-  )
+  );
 }
